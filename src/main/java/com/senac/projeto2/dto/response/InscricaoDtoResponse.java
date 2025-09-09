@@ -1,46 +1,42 @@
 package com.senac.projeto2.dto.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class InscricaoDtoResponse {
     private int id;
-    private LocalDateTime data;
-    private int status;
-    private int idParticipante;
-    private String nomeParticipante;
-    private int idJogo;
+    private LocalDate data;
+    private int participanteId;
+    private int jogoId;
 
     public int getId() {
         return id;
     }
 
-    public InscricaoDtoResponse(Inscricao inscricao){
-        this.id = inscricao.getId();
-        this.data =  inscricao.getData();
-        this.status = inscricao.getStatus();
-        this.idParticipante =  inscricao.getParticipante().getId();
-        this.nomeParticipante = inscricao.getParticipante().getNome();
-        this.idJogo = inscricao.getJogo().getId();
-
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public LocalDateTime getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public int getStatus() {
-        return status;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
-    public int getIdParticipante() {
-        return idParticipante;
+    public int getParticipanteId() {
+        return participanteId;
     }
 
-    public String getNomeParticipante() {
-        return nomeParticipante;
+    public void setParticipanteId(int participanteId) {
+        this.participanteId = participanteId;
     }
 
-    public int getIdJogo() {
-        return idJogo;
+    public int getJogoId() {
+        return jogoId;
+    }
+
+    public void setJogoId(int jogoId) {
+        this.jogoId = jogoId;
     }
 }

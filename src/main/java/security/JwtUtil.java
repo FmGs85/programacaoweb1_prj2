@@ -1,25 +1,35 @@
 package com.senac.projeto2.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+
 public class JwtUtil {
-    private static final String SECRET = "chaveSuperSecreta123456789!";
+
+    private static final String SECRET = "chaveSuperSecreta123456789!ABCDEF"; // precisa ter tamanho adequado
     private static final long EXPIRATION = 1000 * 60 * 60; // 1h
-    public static String generateToken(String username) {
+
+        private static final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+
+        public static String generateToken(String username) {
         return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(key)
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-    public static String validateToken(String token) {
-        return Jwts.parser()
-                .verifyWith(key).build()
-                .parseSignedClaims(token)
-                .getPayload().getSubject();
+
+        public static String validateToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }
-
